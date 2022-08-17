@@ -1,0 +1,23 @@
+5. select * from DRUG where Formula in (select Formula from DRUG group by (Formula) having count(formula) =1);
+6. select d.*, count(s.PH_NAME) total_Pharmas from DRUG d, PHARMACY p, SELL s where d.Tradename = s.Tradename and p.PH_NAME = s.PH_NAME group
+by(s.Tradename) having count(s.PH_NAME) = (select count(*) from PHARMACY);
+4. select pc.* from PHARMA_COM pc, HAS_CONTRACT h, PHARMACY ph where
+pc.PC_NAME = h.PC_NAME and h.PH_NAME = ph.PH_NAME and pc.PC_Address = ph.PH_Address group by (PC_NAME) having count(h.PC_NAME) > 3;
+2. select d.* from DOCTOR d, PRESCRIBES p, PATIENT pt where d.D_SSN = p.D_SSN and pt.P_SSN = p.P_SSN and p.Date_Prescribed like '2013%' group
+by (d.D_SSN) having count(d.D_SSN) > 5;
+1. select p.*, d.Speciality from DOCTOR d, PATIENT p, TREAT t where d.D_SSN = t.D_SSN and p.P_SSN = t.P_SSN and d.Speciality = 'Opthomologist' and p.Age > 20;
+3. select * from DOCTOR where DOCTOR.Years_of_exp = ( select max(Years_of_exp) from DOCTOR);
+
+
+
+
+4. select i.I_Name, count(p.SSN) Mucisian_count, count(p.SSN) / (select count(*) from MUSICIAN) Average from INSTRUMENT i, PLAY p where i.I_Id = p.I_Id group by p.I_Id;
+
+5. select a.A_Title from ALBUM a, MUSICIAN m, PLAY p where a.SSN = m.SSN and m.SSN = p.SSN
+and p.SSN in(select SSN from PLAY where I_Id = "I001" and p.SSN in (select SSN from PLAY where
+I_Id = "I004") and a.No_of_songs > (select avg(No_of_songs) from ALBUM)) group by a.A_Title;
+
+3. select count(p.SSN) Musician_count, s.S_Title, s.Author from SONG s, PERFORM p where s.S_Id = p.S_Id group by p.S_Id having count(p.SSN) > 3;
+
+
+
